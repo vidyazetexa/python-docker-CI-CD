@@ -1,6 +1,6 @@
 import json
 from flask import Flask
-import psycopg2
+import psyco
 import os
 
 app = Flask(__name__)
