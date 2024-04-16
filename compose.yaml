@@ -42,6 +42,16 @@ services:
       interval: 10s
       timeout: 5s
       retries: 5
+
+  test:
+    build:
+      context: .
+    environment:
+      - POSTGRES_PASSWORD_FILE=/run/secrets/db-password
+    secrets:
+      - db-password
+    command: pytest
+
 volumes:
   db-data:
 secrets:
