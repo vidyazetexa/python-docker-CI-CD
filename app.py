@@ -1,7 +1,7 @@
 import json
-from flask import Flask
-import psyco
-import os
+from flask import Flas
+import psycopg2
+import o
 
 app = Flask(__name__)
 
@@ -13,7 +13,7 @@ else:
 
 @app.route('/')
 def hello_world():
-    reurn 'Hello, I'm testing a Docker, done?!'
+    return 'Hello, I'm testing a  Docker, done?!'
 
 
 @app.route('/widgets')
