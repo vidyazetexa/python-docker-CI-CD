@@ -8,7 +8,6 @@ on:
 
 env:
   AWS_REGION: ap-south-1
-  AWS_ACCOUNT_ID: 073042140176
   ECR_REPOSITORY: 073042140176.dkr.ecr.ap-south-1.amazonaws.com
 
 
