@@ -8,6 +8,7 @@ on:
 
 env:
   AWS_REGION: ap-south-1
+  AWS_ACCOUNT_ID: 073042140176
   ECR_REPOSITORY: 073042140176.dkr.ecr.ap-south-1.amazonaws.com
 
 
@@ -33,7 +34,7 @@ jobs:
 
       - name: Log in to Amazon ECR
         id: login-ecr
-        run: aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ secrets.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
+        run: aws ecr get-login-password --region ${{ env.AWS_REGION }} | docker login --username AWS --password-stdin ${{ env.AWS_ACCOUNT_ID }}.dkr.ecr.${{ env.AWS_REGION }}.amazonaws.com
 
       # - name: Build Docker image
       #   run: |
