@@ -1,0 +1,56 @@
+name: Testssss
+
+on:
+  push:
+  workflow_dispatch:
+
+jobs:
+  build-and-run-integration-test:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Check code
+        run: |
+        PASSED_TESTAPI=$(grep "^--- PASS:" result.txt)
+        FAILED_TESTAPI=$(grep "^--- FAIL:" result.txt)
+        ERROR_BLOCKS=$(sed -n '/^\s*Error Trace:/,/^\s*Test:/p' result.txt)
+        result_file="result.txt"
+        passed_apis=0
+        failed_apis=0
+        
+        while IFS= read -r line; do
+            if [[ $line == *"    --- PASS:"* ]]; then
+                ((passed_apis++))
+            elif [[ $line == *"    --- FAIL:"* ]]; then
+                ((failed_apis++))
+            fi
+        done < "$result_file"
+        
+        
+        # Calculate the total number of tests
+        total=$((passed_apis + failed_apis))
+        
+        # Calculate the percentage of passed and failed tests
+        passed_percent=$(awk "BEGIN { printf \"%.5f\n\", ($passed_apis * 100) / $total }")
+        failed_percent=$(awk "BEGIN { printf \"%.5f\n\", ($failed_apis * 100) / $total }")
+        
+        
+        
+        # Prepare comment with extracted lines
+        COMMENT="Integration Test Result in Percentage:
+        | API | Passed (%) | Failed (%) |
+        | --- | ---------- | ---------- |
+        | (%) | $passed_percent% | $failed_percent% |
+        ---------------------------------
+        APIs Status:
+        $PASSED_TESTAPI
+        $FAILED_TESTAPI
+        ---------------------------------
+        Error blocks in details:
+        $ERROR_BLOCKS"
+        
+        
+        echo "$COMMENT"
